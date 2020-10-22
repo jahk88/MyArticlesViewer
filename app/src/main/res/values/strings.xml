@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">My Articles Viewer</string>
+    <string name="no_data_text">No hay articulos para mostrar</string>
+</resources>
