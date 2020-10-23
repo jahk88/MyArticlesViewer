@@ -30,6 +30,11 @@ class HomeViewModel : ViewModel() {
     val homeItemSelected: LiveData<HomeModel?>
         get() = _homeItemSelected
 
+    private val _isHomeItemSelected = MutableLiveData<Boolean>(false)
+
+    val isHomeItemSelected: LiveData<Boolean>
+        get() = _isHomeItemSelected
+
     private val _homeItems = MutableLiveData<List<HomeModel>>()
 
     val homeItems: LiveData<List<HomeModel>>
@@ -51,6 +56,13 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun itemSelected(homeItem: HomeModel) = _homeItemSelected.postValue(homeItem)
+    fun itemSelected(homeItem: HomeModel) {
+        _isHomeItemSelected.value = true
+        _homeItemSelected.postValue(homeItem)
+    }
+
+    fun onItemSelectedShown() {
+        _isHomeItemSelected.value = false
+    }
 
 }
