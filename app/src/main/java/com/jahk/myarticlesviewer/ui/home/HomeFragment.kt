@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
         val actionbar = (activity as AppCompatActivity).supportActionBar
         actionbar?.let {it.title = resources.getString(R.string.app_name) }
 
-        viewModel.getHomeItems()
+        viewModel.refreshDataFromRepository()
     }
 }
 

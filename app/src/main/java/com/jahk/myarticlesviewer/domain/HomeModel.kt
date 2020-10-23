@@ -3,8 +3,7 @@ package com.jahk.myarticlesviewer.domain
 import com.jahk.myarticlesviewer.network.HighlightResult
 import java.io.Serializable
 
-data class HomeModel(val _highlightResult: HighlightResult? = null,
-                     val _tags: List<String>? = null,
+data class HomeModel(
                      val author: String? = null,
                      val comment_text: String? = null,
                      val created_at: String? = null,
