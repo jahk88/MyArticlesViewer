@@ -7,7 +7,7 @@ import androidx.room.*
 
 @Dao
 interface HitDao {
-    @Query("select * from HitDb")
+    @Query("SELECT * FROM HitDb ORDER BY created_at DESC")
     fun getArticles(): LiveData<List<HitDb>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
