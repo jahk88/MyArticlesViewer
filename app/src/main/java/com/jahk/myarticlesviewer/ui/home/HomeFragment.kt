@@ -28,7 +28,8 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         viewModel.homeItems.observe(viewLifecycleOwner, Observer {homeItemsList ->
-            if (!homeItemsList.isEmpty()) {
+            swipeRefresh.isRefreshing = false
+            if (homeItemsList.isNotEmpty()) {
                 viewModel.adapter = HomeItemsdapter(viewModel, homeItemsList)
                 recycler_view.apply {
                     layoutManager = LinearLayoutManager(context)
@@ -60,6 +61,7 @@ class HomeFragment : Fragment() {
         actionbar?.let {it.title = resources.getString(R.string.app_name) }
 
         viewModel.refreshDataFromRepository()
+        swipeRefresh.setOnRefreshListener { viewModel.refreshDataFromRepository() }
     }
 }
 
