@@ -11,6 +11,14 @@ Getting Started
 This project uses the Gradle build system. To build this project, use the
 `gradlew build` command or use "Import Project" in Android Studio.
 
+Screenshots
+-----------
+
+![List of Articles](screenshots/01.png)
+![Pull to refresh](screenshots/02.png)
+![Swipe to delete](screenshots/03.png)
+![Article Viewer](screenshots/04.png)
+
 Libraries Used
 --------------
 * [Foundation][0] - Components for core system capabilities, Kotlin extensions.
