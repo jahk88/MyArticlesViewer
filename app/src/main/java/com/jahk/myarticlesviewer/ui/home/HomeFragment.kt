@@ -14,9 +14,11 @@ import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jahk.myarticlesviewer.R
+import com.jahk.myarticlesviewer.utils.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
 
@@ -39,6 +41,15 @@ class HomeFragment : Fragment() {
                     }
                     adapter = viewModel.adapter
                 }
+                val swipeHandler = object : SwipeToDeleteCallback(requireContext()) {
+                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                        val adapter = recycler_view.adapter as HomeItemsdapter
+                        // adapter.removeAt(viewHolder.adapterPosition)
+                        viewModel.deleteItem(adapter.items[viewHolder.adapterPosition])
+                    }
+                }
+                val itemTouchHelper = ItemTouchHelper(swipeHandler)
+                itemTouchHelper.attachToRecyclerView(recycler_view)
             }
         })
 
