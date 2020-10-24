@@ -1,13 +1,16 @@
 package com.jahk.myarticlesviewer.network
 
+import com.jahk.myarticlesviewer.database.HitDb
 import com.jahk.myarticlesviewer.domain.HomeModel
+import com.jahk.myarticlesviewer.utils.toDate
 import com.squareup.moshi.JsonClass
 import java.io.Serializable
+import java.util.*
 
 @JsonClass(generateAdapter = true)
 data class MainResponse(
     val exhaustiveNbHits: Boolean? = null,
-    val hits: List<Hit>? = null,
+    val hits: List<Hit>,
     val hitsPerPage: Int? = null,
     val nbHits: Int? = null,
     val nbPages: Int? = null,
@@ -94,12 +97,28 @@ data class Url(
 fun MainResponse.getHitsList(): List<HomeModel>? {
     return hits?.map {
         HomeModel(
-            _highlightResult = it._highlightResult,
-            _tags = it._tags,
             author = it.author,
             comment_text = it.comment_text,
             created_at = it.created_at,
             created_at_i = it.created_at_i,
+            objectID = it.objectID,
+            parent_id = it.parent_id,
+            story_id = it.story_id,
+            story_text = it.story_text,
+            story_title = it.story_title,
+            story_url = it.story_url
+        )
+    }
+}
+
+fun MainResponse.asDatabaseModel(): List<HitDb> {
+    return hits.map {
+        HitDb(
+            author = it.author,
+            comment_text = it.comment_text,
+            created_at = it.created_at,
+            created_at_i = it.created_at_i,
+            // created_at_d = it.created_at?.toDate(),
             objectID = it.objectID,
             parent_id = it.parent_id,
             story_id = it.story_id,

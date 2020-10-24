@@ -6,6 +6,7 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.jahk.myarticlesviewer.R
 import com.jahk.myarticlesviewer.domain.HomeModel
+import com.jahk.myarticlesviewer.utils.getTimeAgo
 import com.jahk.myarticlesviewer.utils.inflate
 import kotlinx.android.synthetic.main.home_item.view.*
 
@@ -19,12 +20,17 @@ class HomeItemsdapter(private val viewModel: HomeViewModel, @NonNull val items: 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(viewModel: HomeViewModel, homeItem: HomeModel) {
+            var timeAgo: String = ""
 
+            homeItem.created_at_i?.let {
+                timeAgo = " - ${getTimeAgo(it.toLong()) ?: ""}"
+            }
+
+            val description = "${homeItem.author}" + timeAgo
             itemView.tvTitle.text = homeItem.story_title
-            itemView.tvDescription.text = homeItem.author
+            itemView.tvDescription.text = description
 
             itemView.setOnClickListener { viewModel.itemSelected(homeItem) }
         }
     }
-
 }
