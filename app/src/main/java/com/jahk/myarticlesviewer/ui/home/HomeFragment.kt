@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jahk.myarticlesviewer.R
 import com.jahk.myarticlesviewer.utils.SwipeToDeleteCallback
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.*
+
 class HomeFragment : Fragment() {
 
     val viewModel: HomeViewModel by lazy { ViewModelProvider(this).get(HomeViewModel::class.java) }
@@ -32,7 +34,8 @@ class HomeFragment : Fragment() {
         viewModel.homeItems.observe(viewLifecycleOwner, Observer {homeItemsList ->
             swipeRefresh.isRefreshing = false
             if (homeItemsList.isNotEmpty()) {
-                viewModel.adapter = HomeItemsdapter(viewModel, homeItemsList)
+
+                viewModel.adapter = HomeItemsdapter(viewModel, homeItemsList.sortedByDescending { Date(it.created_at_i?.toLong() ?: 0L) })
                 recycler_view.apply {
                     layoutManager = LinearLayoutManager(context)
                     activity?.let {
