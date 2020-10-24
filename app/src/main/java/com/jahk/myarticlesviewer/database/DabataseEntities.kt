@@ -31,6 +31,7 @@ data class HitDb(
 fun List<HitDb>.asDomainModel(): List<HomeModel> {
     return map {
         HomeModel(
+            id = it.id,
             author = it.author,
             comment_text = it.comment_text,
             created_at = it.created_at,
@@ -44,3 +45,10 @@ fun List<HitDb>.asDomainModel(): List<HomeModel> {
             )
     }
 }
+
+@Entity
+data class DeletedItem (
+    @PrimaryKey(autoGenerate = true)
+    var _id: Int = 0,
+    val objectID: String
+)

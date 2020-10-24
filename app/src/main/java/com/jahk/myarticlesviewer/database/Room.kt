@@ -10,16 +10,38 @@ interface HitDao {
     @Query("SELECT * FROM HitDb ORDER BY created_at DESC")
     fun getArticles(): LiveData<List<HitDb>>
 
+    @Query("SELECT * FROM HitDb WHERE objectID NOT IN (SELECT objectID FROM DeletedItem) ORDER BY created_at DESC")
+    fun getFilteredArticles(): LiveData<List<HitDb>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll( hit: List<HitDb>)
 
     @Query("DELETE FROM HitDb")
     fun deleteAll()
+
+    @Delete
+    fun deleteItem(hit: HitDb)
 }
 
-@Database(entities = [HitDb::class], version = 1)
+@Dao
+interface DeletedItemDao {
+    @Query("SELECT * FROM DeletedItem ORDER BY _id DESC")
+    fun getDeletedItems(): LiveData<List<DeletedItem>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(item: DeletedItem)
+
+    @Query("DELETE FROM DeletedItem")
+    fun deleteAll()
+
+    @Delete
+    fun deleteItem(item: DeletedItem)
+}
+
+@Database(entities = [HitDb::class, DeletedItem::class], version = 1)
 abstract class ArticlesDB: RoomDatabase() {
     abstract val hitDao: HitDao
+    abstract val deletedItemDao: DeletedItemDao
 }
 
 private lateinit var INSTANCE: ArticlesDB

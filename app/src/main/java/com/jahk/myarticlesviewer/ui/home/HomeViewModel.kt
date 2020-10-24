@@ -2,10 +2,7 @@ package com.jahk.myarticlesviewer.ui.home
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.jahk.myarticlesviewer.database.getDatabase
 import com.jahk.myarticlesviewer.domain.HomeModel
 import com.jahk.myarticlesviewer.network.ArticlesNetwork.articles
@@ -19,6 +16,8 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val TAG = HomeViewModel::class.java.simpleName
 
     private val viewModelJob = SupervisorJob()
 
@@ -81,6 +80,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onItemSelectedShown() {
         _isHomeItemSelected.value = false
+    }
+
+    fun deleteItem(homeItem: HomeModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            articlesRepository.deleteItem(homeItem)
+        }
     }
 
 }
